@@ -1,4 +1,3 @@
-// app/project/report.js
 import { useLocalSearchParams } from 'expo-router';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as Print from 'expo-print';
@@ -7,7 +6,7 @@ import {
   getExpenses,
   getProject,
   getProjectTotals
-} from '../src/db/database';
+} from '../../src/db/database';
 
 export default function ProjectReportScreen() {
   const { id } = useLocalSearchParams();

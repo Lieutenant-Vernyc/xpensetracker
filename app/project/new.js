@@ -1,4 +1,3 @@
-// app/project/new.js
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -12,7 +11,7 @@ import {
   View
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { addProject, saveImage } from '../src/db/database';
+import { addProject, saveImage } from '../../src/db/database';
 
 export default function NewProjectScreen() {
   const [form, setForm] = useState({

@@ -1,4 +1,3 @@
-// app/project/edit.js
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
@@ -12,10 +11,11 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {
+  deleteProject,
   getProject,
   saveImage,
   updateProject
-} from '../src/db/database';
+} from '../../src/db/database';
 
 export default function EditProjectScreen() {
   const { id } = useLocalSearchParams();
@@ -62,10 +62,35 @@ export default function EditProjectScreen() {
     }
   }
 
+  function handleDeleteProject() {
+    Alert.alert(
+      'Delete Project',
+      'Are you sure you want to delete this project? This will also delete its expenses and tasks.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteProject(id);
+            router.replace('/');
+          }
+        }
+      ]
+    );
+  }
+
   if (!form) return null;
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      keyboardShouldPersistTaps="handled"
+    >
       <TextInput
         style={styles.input}
         value={form.year}
@@ -142,6 +167,13 @@ export default function EditProjectScreen() {
       <Pressable style={styles.saveButton} onPress={saveChanges}>
         <Text style={styles.saveText}>Save Changes</Text>
       </Pressable>
+
+      <Pressable
+        style={styles.deleteButton}
+        onPress={handleDeleteProject}
+      >
+        <Text style={styles.deleteText}>Delete Project</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -149,8 +181,11 @@ export default function EditProjectScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 16
+    backgroundColor: '#fff'
+  },
+  contentContainer: {
+    padding: 16,
+    paddingBottom: 120
   },
   input: {
     borderWidth: 1,
@@ -180,6 +215,19 @@ const styles = StyleSheet.create({
   },
   saveText: {
     color: '#fff',
+    textAlign: 'center',
+    fontWeight: '700'
+  },
+  deleteButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#d00',
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 12
+  },
+  deleteText: {
+    color: '#d00',
     textAlign: 'center',
     fontWeight: '700'
   }
